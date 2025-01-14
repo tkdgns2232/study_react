@@ -1,0 +1,20 @@
+* 프로잭트 생성
+npx create-react-app react-study   -> 19버전
+프로젝트 폴더로 이동
+
+* 18 버전 다운그레이드
+npm install react@18 
+npm install react-dom@18 
+npm install @testing-library/jest-dom@5.17.0 
+npm install @testing-library/react@13.4.0 
+npm install @testing-library/user-event@13.5.0 
+npm install web-vitals
+
+
+* node_module 폴더가 없을 때
+npm install
+입력하면 package.json에 등록된 라이브러리 자동 설치
+
+* 프로젝트 실행
+프로젝트 폴더로 꼭 이동한 다음에 실행! main으로 확인
+npm start 
