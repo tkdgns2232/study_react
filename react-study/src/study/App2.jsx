@@ -13,13 +13,26 @@ function App2() {
     console.log(num);
     console.log(number);
 
-    const handleIncreseOnClick = () =>{
+    const handleIncreaseOnClick = () =>{
+        if(num > 8){
+            return
+        }else 
         setNum(num + 1); //set
+
     }
+    
+    const handleDecreaseOnClick = () =>{
+        if(num < -8){
+            return
+        }else
+        setNum(num - 1); //set
+    }
+
+    
     return <>
-        <h1>{num}</h1>
-        <button onClick={handleIncreseOnClick}>1증가</button>
-        <button>1감소</button>
+        <h1>{num}</h1> 
+        <button onClick={handleIncreaseOnClick}>1증가</button>
+        <button onClick={handleDecreaseOnClick}>1감소</button>
     </>
 }
 
