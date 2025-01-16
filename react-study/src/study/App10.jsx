@@ -39,7 +39,7 @@ function App10(props) {
         setNum1(num1 + 10);
         
     }
-
+    // 집가서 다시 공부하기
 
     return (
         <div>
