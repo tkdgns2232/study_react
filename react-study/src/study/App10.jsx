@@ -41,6 +41,8 @@ function App10(props) {
     }
     // 집가서 다시 공부하기
 
+    console.log("????????");
+
     return (
         <div>
             <h1>Num1: {num1}</h1>
