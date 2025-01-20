@@ -1,0 +1,37 @@
+* 프로잭트 생성
+npx create-react-app react-study   -> 19버전
+프로젝트 폴더로 이동
+
+* 18 버전 다운그레이드
+npm install react@18 
+npm install react-dom@18 
+npm install @testing-library/jest-dom@5.17.0 
+npm install @testing-library/react@13.4.0 
+npm install @testing-library/user-event@13.5.0 
+npm install web-vitals
+
+
+* node_module 폴더가 없을 때
+npm install
+입력하면 package.json에 등록된 라이브러리 자동 설치
+
+* 프로젝트 실행
+프로젝트 폴더로 꼭 이동한 다음에 실행! main으로 확인
+npm start 
+
+함수명에 handle 넣기
+
+reactjs code 
+
+rsf 자동완선 단축키
+
+App5 문제 풀이
+1. 저장할 수 있는 리스트를 만들어야한다. set사용
+2. value값 지정해주기
+3. 이벤트 추가해주기
+4. 스프레드 사용 
+5. const[userList,setUserList] = useState([]); // 배열사용
+6. 확인하고싶을때는 console.log사용
+[e.target.name] : e.target.value
+7. find()는 필터처럼 쓸 수 있다. 찾고싶을때 사용
+ex: userList.find(user => username === signinInputValue.username);
