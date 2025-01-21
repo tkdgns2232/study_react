@@ -6,16 +6,6 @@ import App from './App';
 import RouterDom from './components/RouterDom/RouterDom';
 import { BrowserRouter } from 'react-router-dom';
 
-
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
-); // 이 코드가 있어야만 브라우저 라우터 가능
-
 import Hello from './study/Hello/Hello';
 import App2 from './study/App2';
 import App3 from './study/App3';
@@ -31,6 +21,14 @@ import App12 from './study/App12';
 import App13 from './study/App13';
 import App14 from './study/App14';
 // import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+); // 이 코드가 있어야만 브라우저 라우터 가능
 
 
 
