@@ -4,6 +4,7 @@ import WritePage from "./pages/WritePage/WritePage";
 import { Global } from "@emotion/react";
 import { global } from "./styles/global";
 import MainLayout from "./components/MainLayout/MainLayout";
+import ListPage from "./pages/ListPage/ListPage";
 
 function App() {
   
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={ <IndexPage /> } />
           <Route path="/write" element={ <WritePage /> } />
+          <Route path="/list" element={<ListPage />} />
         </Routes>
       </MainLayout>
     </>
