@@ -1,9 +1,11 @@
 /**@jsxImportSource @emotion/react */
 import axios from 'axios';
 import * as s from './style';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-function SignupPage(props) {
+function SignupPage(props) { 
+    const navigate = useNavigate(); 
     const [ inputRefs ] = useState([useRef(), useRef(), useRef(), useRef() ]); //queryselect 대신 Refs 사용한다
     const [ buttonRefs ] = useState([ useRef() ]); 
     const [ inputValue, setInputValue ] = useState({
@@ -40,14 +42,17 @@ function SignupPage(props) {
 
     const handleSignupSubmitOnClick = async () => {
         try{
-            const response = axios.post("http://localhost:8080/servlet_study_war/api/signup", inputValue);
+            const response = await axios.post("http://localhost:8080/servlet_study_war/api/signup", inputValue);
+            console.log(response);
+            alert("회원가입 완료!!");
+            navigate(`/signin?username=${response.data.data.username}`); // navigate는 페이지이동할때 사용하는 코드
         }catch (error){
-
+        
         }
     }
     return (
-        <div>
-            <div>
+        <div css={s.layout}>
+            <div css={s.main}>
                 <input type="test" 
                     placeholder='사용자 이름' 
                     name='username' 
@@ -76,10 +81,10 @@ function SignupPage(props) {
                     onChange={handleInputOnChange} 
                     onKeyDown={handleInputOnkeyDown} 
                     ref={inputRefs [3]} />
-                <button ref={buttonRefs[0]}>가입</button>
+                <button onClick={handleSignupSubmitOnClick} ref={buttonRefs[0]}>가입</button>
                 
             </div>
-            <div>
+            <div css={s.footer}>
                 <span>계정이 있으신가요?</span>
                 <Link to={"/singin"}>로그인</Link>
             </div>

@@ -29,7 +29,7 @@ function MainHeader(props) {
                     <Link to={"/signin"}>
                         <li><LuLogIn/>로그인</li>
                     </Link> 
-                    <Link to={"/singup"}>
+                    <Link to={"/signup"}>
                         <li><LuUserRoundPlus />회원가입</li>
                     </Link> 
                 </ul>
