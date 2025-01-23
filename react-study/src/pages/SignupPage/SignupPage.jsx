@@ -86,7 +86,7 @@ function SignupPage(props) {
             </div>
             <div css={s.footer}>
                 <span>계정이 있으신가요?</span>
-                <Link to={"/singin"}>로그인</Link>
+                <Link to={"/signin"}>로그인</Link>
             </div>
         </div>
     );

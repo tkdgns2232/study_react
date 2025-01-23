@@ -2,10 +2,12 @@
 import axios from 'axios';
 import * as s from './style';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 function SigninPage(props) {
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams(); 
+
     const [ inputRefs ] = useState([useRef(), useRef(), useRef(), useRef() ]); //queryselect 대신 Refs 사용한다
     const [ buttonRefs ] = useState([ useRef() ]); 
     const [ inputValue, setInputValue ] = useState({
@@ -16,7 +18,7 @@ function SigninPage(props) {
     useEffect(() => {
         setInputValue({
             ...inputValue,
-            username: searchParams.get("username"),
+            username: searchParams.get("username") || "", // false 면 우항 ture면 좌항
         })
     },[searchParams.get("username")]);
 
@@ -49,6 +51,8 @@ function SigninPage(props) {
         try{
             const response = await axios.post("http://localhost:8080/servlet_study_war/api/signin", inputValue);
             console.log(response);
+            localStorage.setItem("AccessToken", response.data.body); // localStorage를 써서 데이터 영구 저장 키,값으로 받는다
+            navigate("/"); // 홈으로가는 코드
         }catch (error){
             console.error(error);
         }
@@ -56,7 +60,7 @@ function SigninPage(props) {
     return (
         <div css={s.layout}>
             <div css={s.main}>
-                <input type="test" 
+                <input type="text" 
                     placeholder='사용자 이름' 
                     name='username' 
                     value={inputValue.username} 
@@ -76,7 +80,7 @@ function SigninPage(props) {
             </div>
             <div css={s.footer}>
                 <span>계정이 없으신가요?</span>
-                <Link to={"/singup"}>회원가입</Link>
+                <Link to={"/signup"}>회원가입</Link>
             </div>
         </div>
     );

@@ -20,14 +20,23 @@ import App11 from './study/App11';
 import App12 from './study/App12';
 import App13 from './study/App13';
 import App14 from './study/App14';
-// import App from './App';
+import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+const queryClient = new QueryClient();
+
 root.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <RecoilRoot> 
+        <QueryClientProvider client={queryClient}> 
+            <BrowserRouter>
+                <App />
+            </BrowserRouter> 
+        </QueryClientProvider>   
+    </RecoilRoot>
+    
 ); // 이 코드가 있어야만 브라우저 라우터 가능
 
 
