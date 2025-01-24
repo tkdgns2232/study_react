@@ -14,7 +14,9 @@ function MainHeader(props) {
     const naviagte = useNavigate();
     const queryClient = useQueryClient();
     const userId = queryClient.getQueryData(["authenticatedUserQuery"])?.data.body;
-    const setAccessToken = useSetRecoilState(accessTokenAtomState);
+    const [ accessToken, setAccessToken ] = useRecoilState(accessTokenAtomState);
+
+    console.log(queryClient.getQueryCache());
 
     const getUserApi = async () => {
         return await axios.get("http://localhost:8080/servlet_study_war/api/user", {
@@ -28,9 +30,10 @@ function MainHeader(props) {
     }
 
     const getUserQuery = useQuery(
-        ["getUserQuery", userId],
+        ["getUserQuery"],
         getUserApi,
-        {
+        {   
+            retry: 0,
             refetchOnWindowFocus:false,
             enabled: !!userId,
         } // {}는 객체
@@ -38,6 +41,7 @@ function MainHeader(props) {
 
     const handleLogoutOnClick = () => {
         localStorage.removeItem("AccessToken");
+        console.log(localStorage.getItem("AccessToken"));
         setAccessToken(localStorage.getItem("AccessToken"));
         queryClient.removeQueries(["authenticatedUserQuery"]);     //invalidateQueries 쿼리 만료 (캐시를 지워준다)
         naviagte("/signin");
@@ -67,7 +71,7 @@ function MainHeader(props) {
                         <Link to={"/mypage"}>
                             <li><LuUser/>{getUserQuery.isLoading ? "" : getUserQuery.data.data.body.username}</li>
                         </Link> 
-                        <a href='javascript: void(0)' onClick={handleLogoutOnClick}>
+                        <a onClick={handleLogoutOnClick}>
                             <li><LuLogOut />로그아웃</li>
                         </a> 
                     </ul>

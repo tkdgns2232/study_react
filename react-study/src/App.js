@@ -17,6 +17,10 @@ function App() {
   // 0이면 로그인 x  useRecoilState는 전역상태를 만들어야 쓸수있다
   const [accessToken, setAccessToken] = useRecoilState(accessTokenAtomState);
 
+  useEffect(() => {
+    authenticatedUserQuery.refetch();
+  }, [accessToken]);
+
   const authenticatedUser = async () => {
       return await axios.get("http://localhost:8080/servlet_study_war/api/authenticated", {
         headers: {
@@ -37,6 +41,8 @@ function App() {
       
     } // 옵션
   );
+
+  console.log(authenticatedUserQuery.isLoading);
   
   return (
     <>
