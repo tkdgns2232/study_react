@@ -3,11 +3,16 @@ import axios from 'axios';
 import * as s from './style';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { accessTokenAtomState } from '../../atoms/authAtom';
+import { useQueryClient } from 'react-query';
 
 function SigninPage(props) {
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams(); 
 
+    const [accessToken, setAccessToken] = useRecoilState(accessTokenAtomState);
     const [ inputRefs ] = useState([useRef(), useRef(), useRef(), useRef() ]); //queryselect 대신 Refs 사용한다
     const [ buttonRefs ] = useState([ useRef() ]); 
     const [ inputValue, setInputValue ] = useState({
@@ -50,8 +55,8 @@ function SigninPage(props) {
     const handleSigninSubmitOnClick = async () => {
         try{
             const response = await axios.post("http://localhost:8080/servlet_study_war/api/signin", inputValue);
-            console.log(response);
             localStorage.setItem("AccessToken", response.data.body); // localStorage를 써서 데이터 영구 저장 키,값으로 받는다
+            setAccessToken(localStorage.getItem("AccessToken"));
             navigate("/"); // 홈으로가는 코드
         }catch (error){
             console.error(error);

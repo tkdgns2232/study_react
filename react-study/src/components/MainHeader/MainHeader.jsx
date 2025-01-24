@@ -1,18 +1,20 @@
 /**@jsxImportSource @emotion/react */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as s from './style';
 import React, { useEffect, useState } from 'react';
 
 import { LuUserRoundPlus, LuLogIn, LuLogOut, LuUser, LuLayoutList, LuNotebookPen } from "react-icons/lu";
-import { useRecoilState } from 'recoil';
-import { authUserIdAtomState } from '../../atoms/authAtom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { accessTokenAtomState, authUserIdAtomState } from '../../atoms/authAtom';
 import axios from 'axios';
 import { useQuery, useQueryClient } from 'react-query';
 
 // Link 는 a태그 같은 역할을 한다 a태그는 전체 렌더링을 하지만 Link는 부분만 랜더링한다.
 function MainHeader(props) {
+    const naviagte = useNavigate();
     const queryClient = useQueryClient();
     const userId = queryClient.getQueryData(["authenticatedUserQuery"])?.data.body;
+    const setAccessToken = useSetRecoilState(accessTokenAtomState);
 
     const getUserApi = async () => {
         return await axios.get("http://localhost:8080/servlet_study_war/api/user", {
@@ -33,6 +35,13 @@ function MainHeader(props) {
             enabled: !!userId,
         } // {}는 객체
     );
+
+    const handleLogoutOnClick = () => {
+        localStorage.removeItem("AccessToken");
+        setAccessToken(localStorage.getItem("AccessToken"));
+        queryClient.removeQueries(["authenticatedUserQuery"]);     //invalidateQueries 쿼리 만료 (캐시를 지워준다)
+        naviagte("/signin");
+    }
 
     return (
         <div css={s.layout}>
@@ -56,11 +65,11 @@ function MainHeader(props) {
                     !!userId ?
                     <ul>
                         <Link to={"/mypage"}>
-                            <li><LuUser/>{getUserQuery.isLoading ? "" : getUserQuery.data.data.username}</li>
+                            <li><LuUser/>{getUserQuery.isLoading ? "" : getUserQuery.data.data.body.username}</li>
                         </Link> 
-                        <Link to={"/logout"}>
+                        <a href='javascript: void(0)' onClick={handleLogoutOnClick}>
                             <li><LuLogOut />로그아웃</li>
-                        </Link> 
+                        </a> 
                     </ul>
                     :
                     <ul>

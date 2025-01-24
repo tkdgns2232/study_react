@@ -10,12 +10,12 @@ import SigninPage from "./pages/SigninPage/SigninPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import { authUserIdAtomState } from "./atoms/authAtom";
 import { useQuery } from "react-query";
+import { accessTokenAtomState } from "./atoms/authAtom";
 
 function App() {
   // 0이면 로그인 x  useRecoilState는 전역상태를 만들어야 쓸수있다
-  const location = useLocation();
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtomState);
 
   const authenticatedUser = async () => {
       return await axios.get("http://localhost:8080/servlet_study_war/api/authenticated", {
@@ -29,19 +29,22 @@ function App() {
 
   const authenticatedUserQuery = useQuery(
     ["authenticatedUserQuery"], // 키값 배열
-    authenticatedUser, 
+    authenticatedUser, // 함수
     {
+      retry: 0,  // 실패하면 요청날리는 코드
       refetchOnWindowFocus: false,
-      enabled: !!localStorage.getItem("AccessToken"), // ture이면 작동 false면 실행 x
+      enabled: !!accessToken, // ture이면 작동 false면 실행 x
       
-    }
+    } // 옵션
   );
   
   return (
     <>
       <Global styles={global} />
       {
-        authenticatedUserQuery.isLoading ? <></>
+        authenticatedUserQuery.isLoading 
+        ? 
+          <></> // ture이면 아무화면이 안보인다.
         :
       <MainLayout>
         <Routes>
@@ -51,8 +54,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<SigninPage />} />
 
-        
-        </Routes>
+        </Routes>   
       </MainLayout>
       } 
     </>
